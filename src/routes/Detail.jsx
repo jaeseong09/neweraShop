@@ -4,8 +4,11 @@ import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 import Nav from "react-bootstrap/Nav";
 import { Context1 } from "./../App.jsx";
+import { useSelector, useDispatch } from "react-redux";
+import { additionState } from "../store.js";
 
 function DetailPage({ clothes }) {
+  let dispatch = useDispatch();
   let { 재고 } = useContext(Context1);
 
   const navigator = useNavigate();
@@ -51,7 +54,7 @@ function DetailPage({ clothes }) {
           <h4 className="pt-5">{찾은상품.title}</h4>
           <p>{찾은상품.content}</p>
           <p>{찾은상품.price}</p>
-          <input
+          {/* <input
             onChange={(e) => {
               let value = e.target.value;
               if (isNaN(value)) {
@@ -61,8 +64,21 @@ function DetailPage({ clothes }) {
             }}
             type="text"
             placeholder="수량"
-          />
-          <button className="btn btn-danger">주문하기</button>
+          /> */}
+          <button
+            onClick={() => {
+              dispatch(
+                additionState({
+                  id: 찾은상품.id,
+                  name: 찾은상품.title,
+                  count: 1,
+                })
+              );
+            }}
+            className="btn btn-danger"
+          >
+            주문하기
+          </button>
         </div>
         <Nav variant="tabs" defaultActiveKey="link0">
           <Nav.Item

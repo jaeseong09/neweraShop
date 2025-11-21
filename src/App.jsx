@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -17,6 +17,12 @@ import Cart from "./routes/Cart.jsx";
 export let Context1 = createContext();
 
 function App() {
+  useEffect(() => {
+    if (localStorage.getItem("watched") == null) {
+      localStorage.setItem("watched", JSON.stringify([]));
+    }
+  }, []);
+
   const [clothes, setclothes] = useState(data);
   let [재고] = useState([10, 11, 12]);
   return (
@@ -56,6 +62,8 @@ function App() {
 }
 
 function MainPage(props) {
+  let 꺼낸거 = localStorage.getItem("watched");
+  let 변환된거 = JSON.parse(꺼낸거);
   const [count, setCount] = useState(1);
   let [loading, setLoading] = useState(false);
   return (
@@ -78,7 +86,16 @@ function MainPage(props) {
           {props.clothes.map((clothes, i) => {
             return (
               <Col key={i}>
-                <Link to={`/detail/${i}`}>
+                <Link
+                  to={`/detail/${i}`}
+                  onClick={() => {
+                    if (변환된거.find((id) => id == clothes.id)) {
+                    } else {
+                      변환된거.push(clothes.id);
+                      localStorage.setItem("watched", JSON.stringify(변환된거));
+                    }
+                  }}
+                >
                   <img
                     src={`/img/neweraItem${i + 1}.jpg`}
                     alt=""

@@ -33,7 +33,7 @@ function NavarPage() {
           </Nav.Link>
           <Nav.Link
             onClick={() => {
-              navigate("#");
+              navigate("/Cart");
             }}
           >
             Cart
